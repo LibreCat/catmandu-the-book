@@ -1,0 +1,1357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Catmandu - the book</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Catmandu - the book</h1>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#Importer">Importer</a><ul>
+<li><a href="#catmandu-importer-csv">CSV</a></li>
+<li><a href="#catmandu-importer-json">JSON</a></li>
+<li><a href="#catmandu-importer-mock">Mock</a></li>
+<li><a href="#catmandu-importer-modules">Modules</a></li>
+<li><a href="#catmandu-importer-multi">Multi</a></li>
+<li><a href="#catmandu-importer-null">Null</a></li>
+<li><a href="#catmandu-importer-text">Text</a></li>
+<li><a href="#catmandu-importer-yaml">YAML</a></li>
+<li><a href="#catmandu-importer-alephx">AlephX</a></li>
+<li><a href="#catmandu-importer-arxiv">ArXiv</a></li>
+<li><a href="#catmandu-importer-atom">Atom</a></li>
+<li><a href="#catmandu-importer-bagit">BagIt</a></li>
+<li><a href="#catmandu-importer-bibtex">BibTeX</a></li>
+<li><a href="#catmandu-importer-blacklight">Blacklight</a></li>
+<li><a href="#catmandu-importer-crossref">CrossRef</a></li>
+<li><a href="#catmandu-importer-dbi">DBI</a></li>
+<li><a href="#catmandu-importer-europepmc">EuropePMC</a></li>
+<li><a href="#catmandu-importer-apachelog">ApacheLog</a></li>
+<li><a href="#catmandu-importer-cpan">CPAN</a></li>
+<li><a href="#catmandu-importer-mwtemplates">MWTemplates</a></li>
+<li><a href="#catmandu-importer-parltrack">Parltrack</a></li>
+<li><a href="#catmandu-importer-purr">Purr</a></li>
+<li><a href="#catmandu-importer-getjson">getJSON</a></li>
+<li><a href="#catmandu-importer-inspire">Inspire</a></li>
+<li><a href="#catmandu-importer-ldap">LDAP</a></li>
+<li><a href="#catmandu-importer-mab2">MAB2</a></li>
+<li><a href="#catmandu-importer-marc">MARC</a></li>
+<li><a href="#catmandu-importer-mods">MODS</a></li>
+<li><a href="#catmandu-importer-mediamosa">MediaMosa</a></li>
+<li><a href="#catmandu-importer-mendeleycatalog">MendeleyCatalog</a></li>
+<li><a href="#catmandu-importer-oai">OAI</a></li>
+<li><a href="#catmandu-importer-pica">PICA</a></li>
+<li><a href="#catmandu-importer-rdf">RDF</a></li>
+<li><a href="#catmandu-importer-ris">RIS</a></li>
+<li><a href="#catmandu-importer-sru">SRU</a></li>
+<li><a href="#catmandu-importer-solr">Solr</a></li>
+<li><a href="#catmandu-importer-twitter">Twitter</a></li>
+<li><a href="#catmandu-importer-wikidata">Wikidata</a></li>
+<li><a href="#catmandu-importer-xls">XLS</a></li>
+<li><a href="#catmandu-importer-xlsx">XLSX</a></li>
+<li><a href="#catmandu-importer-xml">XML</a></li>
+<li><a href="#catmandu-importer-z3950">Z3950</a></li>
+<li><a href="#catmandu-importer-zotero">Zotero</a></li>
+</ul></li>
+<li><a href="#Exporter">Exporter</a><ul>
+<li><a href="#catmandu-exporter-csv">CSV</a></li>
+<li><a href="#catmandu-exporter-json">JSON</a></li>
+<li><a href="#catmandu-exporter-multi">Multi</a></li>
+<li><a href="#catmandu-exporter-null">Null</a></li>
+<li><a href="#catmandu-exporter-text">Text</a></li>
+<li><a href="#catmandu-exporter-yaml">YAML</a></li>
+<li><a href="#catmandu-exporter-atom">Atom</a></li>
+<li><a href="#catmandu-exporter-bagit">BagIt</a></li>
+<li><a href="#catmandu-exporter-bibtex">BibTeX</a></li>
+<li><a href="#catmandu-exporter-table">Table</a></li>
+<li><a href="#catmandu-exporter-mab2">MAB2</a></li>
+<li><a href="#catmandu-exporter-marc">MARC</a></li>
+<li><a href="#catmandu-exporter-pica">PICA</a></li>
+<li><a href="#catmandu-exporter-rdf">RDF</a></li>
+<li><a href="#catmandu-exporter-ris">RIS</a></li>
+<li><a href="#catmandu-exporter-stat">Stat</a></li>
+<li><a href="#catmandu-exporter-template">Template</a></li>
+<li><a href="#catmandu-exporter-xls">XLS</a></li>
+<li><a href="#catmandu-exporter-xlsx">XLSX</a></li>
+<li><a href="#catmandu-exporter-xml">XML</a></li>
+</ul></li>
+<li><a href="#Store">Store</a><ul>
+<li><a href="#catmandu-store-hash">Hash</a></li>
+<li><a href="#catmandu-store-multi">Multi</a></li>
+<li><a href="#catmandu-store-alephx">AlephX</a></li>
+<li><a href="#catmandu-store-alephx">AlephX</a></li>
+<li><a href="#catmandu-store-dbi">DBI</a></li>
+<li><a href="#catmandu-store-fedoracommons">FedoraCommons</a></li>
+<li><a href="#catmandu-store-solr">Solr</a></li>
+<li><a href="#catmandu-store-chi">CHI</a></li>
+<li><a href="#catmandu-store-couchdb">CouchDB</a></li>
+<li><a href="#catmandu-store-elasticsearch">ElasticSearch</a></li>
+<li><a href="#catmandu-store-lucy">Lucy</a></li>
+<li><a href="#catmandu-store-mongodb">MongoDB</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="Importer">Importer</h1>
+<h2 id="catmandu-importer-csv">CSV</h2>
+<pre><code>    use Catmandu::Importer::CSV;
+
+    my $importer = Catmandu::Importer::CSV-&gt;new(file =&gt; &quot;/foo/bar.csv&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<p>Convert CSV to other formats with the catmandu command line client:</p>
+<pre><code>    # convert CSV file to JSON
+    catmandu convert CSV to JSON &lt; journals.csv
+    # set column names if CSV file has no header line
+    echo &#39;12157,&quot;The Journal of Headache and Pain&quot;,2193-1801&#39; | \
+      catmandu convert CSV --header 0 --fields &#39;id,title,issn&#39; to YAML
+    # set field separator and quote character 
+    echo &#39;12157;$The Journal of Headache and Pain$;2193-1801&#39; | \
+      catmandu convert CSV --header 0 --fields &#39;id,title,issn&#39; --sep_char &#39;;&#39; --quote_char &#39;$&#39; to XLSX --file journal.xlsx</code></pre>
+<h2 id="catmandu-importer-json">JSON</h2>
+<pre><code>    use Catmandu::Importer::JSON;
+
+    my $importer = Catmandu::Importer::JSON-&gt;new(file =&gt; &quot;/foo/bar.json&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<p>The defaults assume a newline delimited JSON file:</p>
+<pre><code>    { &quot;recordno&quot;: 1, &quot;name&quot;: &quot;Alpha&quot; }
+    { &quot;recordno&quot;: 2, &quot;name&quot;: &quot;Beta&quot; }
+    { &quot;recordno&quot;: 3, &quot;name&quot;: &quot;Gamma&quot; }</code></pre>
+<p>Use the <code>multiline</code> or <code>array</code> options to parse pretty-printed JSON or JSON arrays.</p>
+<h2 id="catmandu-importer-mock">Mock</h2>
+<pre><code>    use Catmandu::Importer::Mock;
+
+    my $importer = Catmandu::Importer::Mock-&gt;new();
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-modules">Modules</h2>
+<h2 id="catmandu-importer-multi">Multi</h2>
+<pre><code>    use Catmandu::Importer::Multi;
+
+    my $importer = Catmandu::Importer::Multi-&gt;new(importers =&gt; [
+        Catmandu::Importer::Mock-&gt;new,
+        Catmandu::Importer::Mock-&gt;new,
+    ]);
+
+    my $importer = Catmandu::Importer::Multi-&gt;new(
+        &#39;importer1&#39;,
+        &#39;importer2&#39;,
+    );
+
+    # return all the items of each importer in turn
+    $importer-&gt;each(sub {
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-null">Null</h2>
+<pre><code>    # On the command line
+    catmandu convert Null --fix &#39;add_field(foo,bar)&#39;   
+    # creates { &quot;foo&quot;: &quot;bar&quot; }
+
+    # In perl
+    use Catmandu::Importer::Null;
+
+    my $importer = Catmandu::Importer::Null-&gt;new();
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-text">Text</h2>
+<p>With <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>    # separate fields by whitespace sequences just like awk
+    catmandu convert Text --split &#39;\s+&#39; 
+
+    # import all lines starting with &#39;#&#39;, omitting this character 
+    catmandu convert Text --pattern &#39;^#(.*)&#39;</code></pre>
+<p>In Perl code:</p>
+<pre><code>    use Catmandu::Importer::Text;
+
+    my $importer = Catmandu::Importer::text-&gt;new( file =&gt; &quot;/foo/bar.txt&quot; );
+
+    # print all lines with line number
+    $importer-&gt;each(sub {
+        my $item = $_[0];
+        printf &quot;%d: %s&quot; , $item-&gt;{_id} , $item-&gt;{text};  
+    });</code></pre>
+<h2 id="catmandu-importer-yaml">YAML</h2>
+<pre><code>    use Catmandu::Importer::YAML;
+
+    my $importer = Catmandu::Importer::YAML-&gt;new(file =&gt; &quot;/foo/bar.yaml&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });
+
+    The YAML input file needs to be separated into records:
+
+    ---
+    - recordno: 1
+    - name: Alpha
+    ---
+    - recordno: 2
+    - name: Beta
+    ...
+
+    where &#39;---&#39; is the record separator and &#39;...&#39; the EOF indicator.</code></pre>
+<h2 id="catmandu-importer-alephx">AlephX</h2>
+<pre><code>    use Catmandu::Importer::AlephX;
+
+    my $importer = Catmandu::Importer::AlephX-&gt;new(
+                        url =&gt; &#39;http://ram19:8995/X&#39; ,
+                        query =&gt; &#39;WRD=(art)&#39; ,
+                        base =&gt; &#39;usm01&#39; ,
+                        );
+
+    my $n = $importer-&gt;each(sub {
+        my $r = $_[0];
+        # ...
+        say Dumper($r-&gt;{record});
+        say Dumper($r-&gt;{items});
+    });</code></pre>
+<h2 id="catmandu-importer-arxiv">ArXiv</h2>
+<pre><code>  use Catmandu::Importer::ArXiv;
+
+  my %attrs = (
+    query =&gt; &#39;all:electron&#39;
+  );
+
+  my $importer = Catmandu::Importer::ArXiv-&gt;new(%attrs);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    # ...
+  });</code></pre>
+<h2 id="catmandu-importer-atom">Atom</h2>
+<pre><code>    use Catmandu::Importer::Atom;
+
+    my $importer = Catmandu::Importer::Atom-&gt;new(url =&gt; &quot;...&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-bagit">BagIt</h2>
+<pre><code>   use Catmandu::Importer::BagIt
+
+   my $importer = Catmandu::Importer::BagIt-&gt;new(
+                        bags =&gt; &quot;/my/bags/*&quot; ,
+                  );
+
+   my $importer = Catmandu::Importer::BagIt-&gt;new(
+                        bags =&gt; [&quot;directory1&quot;,&quot;directory2&quot;] ,
+                        include_manifests =&gt; 0 ,
+                        include_payloads  =&gt; 0 ,
+                        verify            =&gt; 1
+                  );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<p>To convert BagIt directories into a JSON representation with the <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>    # Use a glob to find all directories in /my/path/
+    catmandu convert BagIt --bags &#39;/my/path/*&#39; --verify 1 </code></pre>
+<h2 id="catmandu-importer-bibtex">BibTeX</h2>
+<pre><code>    use Catmandu::Importer::BibTeX;
+
+    my $importer = Catmandu::Importer::BibTeX-&gt;new(file =&gt; &quot;/foo/bar.bib&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    }); </code></pre>
+<h2 id="catmandu-importer-blacklight">Blacklight</h2>
+<pre><code>    # From the command line
+    $ catmandu convert Blacklight --url http://lib.ugent.be/catalog -q Schopenhauer
+
+    # In perl
+    use Catmandu::Importer::Blacklight;
+
+    my $importer = Catmandu::Importer::Blacklight-&gt;new(
+                    url =&gt; &quot;...&quot;,
+                    q   =&gt; &quot;...&quot;
+      );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-crossref">CrossRef</h2>
+<pre><code>  use Catmandu::Importer::CrossRef;
+
+  my %attrs = (
+    doi =&gt; &#39;&lt;doi&gt;&#39;,
+    usr =&gt; &#39;&lt;your-crossref-username&gt;&#39;,
+    pwd =&gt; &#39;&lt;your-crossref-password&gt;&#39;,
+    fmt =&gt; &#39;&lt;xsd_xml | unixref | unixsd | info&gt;&#39;
+  );
+
+  my $importer = Catmandu::Importer::CrossRef-&gt;new(%attrs);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    # do something here
+  });</code></pre>
+<h2 id="catmandu-importer-dbi">DBI</h2>
+<pre><code> use Catmandu::Importer::DBI;
+
+ my %attrs = (
+        dsn =&gt; &#39;dbi:mysql:foobar&#39; ,
+        user =&gt; &#39;foo&#39; ,
+        password =&gt; &#39;bar&#39; ,
+        query =&gt; &#39;select * from table&#39;
+ );
+
+ my $importer = Catmandu::Importer::DBI-&gt;new(%attrs);
+
+ # Optional set extra parameters on the database handle
+ # $importer-&gt;dbh-&gt;{LongReadLen} = 1024 * 64;
+
+ $importer-&gt;each(sub {
+        my $row_hash = shift;
+        ...
+ });
+
+
+ # or
+
+ $ catmandu convert DBI --dsn dbi:mysql:foobar --user foo --password bar --query &quot;select * from table&quot;</code></pre>
+<h2 id="catmandu-importer-europepmc">EuropePMC</h2>
+<pre><code>  use Catmandu::Importer::EuropePMC;
+
+  my %attrs = (
+    source =&gt; &#39;MED&#39;,
+    query =&gt; &#39;malaria&#39;,
+    module =&gt; &#39;search&#39;,
+    db =&gt; &#39;EMBL&#39;,
+    page =&gt; &#39;2&#39;,
+  );
+
+  my $importer = Catmandu::Importer::EuropePMC-&gt;new(%attrs);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    # ...
+  });</code></pre>
+<h2 id="catmandu-importer-apachelog">ApacheLog</h2>
+<pre><code>    #!/usr/bin/env perl
+    use Catmandu::Importer::ApacheLog;
+    use Data::Dumper;
+
+    my $importer = Catmandu::Importer::ApacheLog-&gt;new(
+        file =&gt; &quot;/var/log/httpd/access_log&quot;
+    );
+
+    $importer-&gt;each(sub{
+        print Dumper(shift);
+    });
+
+    #!/bin/bash
+    catmandu convert ApacheLog --file access.log to YAML</code></pre>
+<h2 id="catmandu-importer-cpan">CPAN</h2>
+<pre><code> use Catmandu::Importer::CPAN;
+ my $importer = Catmandu::Importer::CPAN-&gt;new( prefix =&gt; &#39;Catmandu&#39; );
+
+ $importer-&gt;each(sub {
+    my $module = shift;
+    print $module-&gt;{distribution} , &quot;\n&quot;;
+    print $module-&gt;{version} , &quot;\n&quot;;
+    print $module-&gt;{date} , &quot;\n&quot;;
+ });</code></pre>
+<p>Or with the <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>  $ catmandu convert CPAN --author NICS --fields distribution,date to CSV</code></pre>
+<h2 id="catmandu-importer-mwtemplates">MWTemplates</h2>
+<p>Command line client <code>catmandu</code>:</p>
+<pre><code>catmandu convert MWTemplates --file example.wiki 
+catmandu convert MWTemplates --site en --page Feminis
+catmandu convert MWTemplates --site de --page Feminism --template Literatur</code></pre>
+<h2 id="catmandu-importer-parltrack">Parltrack</h2>
+<pre><code>    catmandu convert Parltrack --dossier &quot;2011/0167(NLE)&quot;
+    catmandu convert Parltrack --mep &quot;Rebecca HARMS&quot;
+    catmandu convert Parltrack --meps 1
+
+    echo &#39;/dossier/2011/0167(NLE)&#39; | catmandu convert Parltrack
+    echo &#39;/mep/Rebecca HARMS&#39; | catmandu convert Parltrack</code></pre>
+<h2 id="catmandu-importer-purr">Purr</h2>
+<pre><code> use Catmandu::Importer::Purr;
+
+ my $importer = Catmandu::Importer::Purr-&gt;new(prefix =&gt; &#39;Catmandu&#39;);
+ 
+ $importer-&gt;each(sub {
+        my $module = shift;
+        print $module-&gt;{id} , &quot;\n&quot;;
+        print $module-&gt;{date} , &quot;\n&quot;;
+        print $module-&gt;{distribution} , &quot;\n&quot;;
+        print $module-&gt;{version} , &quot;\n&quot;;
+        print $module-&gt;{abstract} , &quot;\n&quot;;
+ });
+ 
+ # or
+
+ $ catmandu convert Purr</code></pre>
+<h2 id="catmandu-importer-getjson">getJSON</h2>
+<p>The following three examples are equivalent:</p>
+<pre><code>    Catmandu::Importer::getJSON-&gt;new(
+        file =&gt; \&quot;http://example.org/alice.json\nhttp://example.org/bob.json&quot;
+    )-&gt;each(sub { my ($record) = @_; ... );
+
+    Catmandu::Importer::getJSON-&gt;new(
+        url  =&gt; &quot;http://example.org&quot;,
+        file =&gt; \&quot;/alice.json\n/bob.json&quot;
+    )-&gt;each(sub { my ($record) = @_; ... );
+    
+    Catmandu::Importer::getJSON-&gt;new(
+        url  =&gt; &quot;http://example.org/{name}.json&quot;,
+        file =&gt; \&quot;{\&quot;name\&quot;:\&quot;alice\&quot;}\n{\&quot;name\&quot;:\&quot;bob\&quot;}&quot;
+    )-&gt;each(sub { my ($record) = @_; ... );</code></pre>
+<p>For more convenience the <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client can be used:</p>
+<pre><code>    echo http://example.org/alice.json | catmandu convert getJSON to YAML
+    catmandu convert getJSON --from http://example.org/alice.json to YAML
+    catmandu convert getJSON --dry 1 --url http://{domain}/robots.txt &lt; domains</code></pre>
+<h2 id="catmandu-importer-inspire">Inspire</h2>
+<pre><code>  use Catmandu::Importer::Inspire;
+
+  my %attrs = (
+    id =&gt; &#39;1203476&#39;,
+    fmt =&gt; &#39;endnote&#39;,
+  );
+
+  my $importer = Catmandu::Importer::Inspire-&gt;new(%attrs);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    # ...
+  });</code></pre>
+<h2 id="catmandu-importer-ldap">LDAP</h2>
+<pre><code>    use Catmandu::Importer::LDAP;
+
+    my $importer = Catmandu::Importer::LDAP-&gt;new(
+        base =&gt; &quot;...&quot;,
+        password =&gt; &quot;...&quot;,
+        search_base =&gt; &quot;...&quot;,
+        search_filter =&gt; &quot;(&amp;(...)(...))&quot;,
+        attributes =&gt; {
+            name =&gt; 1,
+            # or
+            name =&gt; {as =&gt; &quot;Name&quot;},
+            # or
+            name =&gt; {as =&gt; &quot;Name&quot;, array =&gt; 1},
+        },
+    );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-mab2">MAB2</h2>
+<pre><code>    use Catmandu::Importer::MAB2;
+
+    my $importer = Catmandu::Importer::MAB2-&gt;new(file =&gt; &quot;./t/mab2.dat&quot;, type=&gt; &quot;raw&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<p>To convert between MAB2 syntax variants with the <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>    catmandu convert MAB2 --type raw to MAB2 --type xml &lt; mab2.dat</code></pre>
+<h2 id="catmandu-importer-marc">MARC</h2>
+<pre><code>    # From the command line
+    $ catmandu convert MARC --fix &quot;marc_map(&#39;245a&#39;,&#39;title&#39;)&quot; &lt; /foo/bar.mrc
+
+    # From Perl
+    use Catmandu;
+
+    # import records from file
+    my $importer = Catmandu-&gt;importer(&#39;MARC&#39;,file =&gt; &#39;/foo/bar.mrc&#39;);
+    my $fixer    = Catmandu-&gt;fixer(&quot;marc_map(&#39;245a&#39;,&#39;title&#39;)&quot;);
+
+    $importer-&gt;each(sub {
+        my $item = shift;
+        ...
+    });
+
+    # or using the fixer
+
+    $fixer-&gt;fix($importer)-&gt;each(sub {
+        my $item = shift;
+        printf &quot;title: %s\n&quot; , $item-&gt;{title};
+    });</code></pre>
+<h2 id="catmandu-importer-mods">MODS</h2>
+<pre><code>  use Catmandu::Importer::MODS;
+
+  my $importer = Catmandu::Importer::MODS-&gt;new(file =&gt; &quot;modsCollection.xml&quot;);
+
+  my $numModsElements = $importer-&gt;each(sub{
+      my $modsElement = shift; # a MODS::Element::Mods object
+  });</code></pre>
+<h2 id="catmandu-importer-mediamosa">MediaMosa</h2>
+<pre><code>    use Catmandu::Importer::MediaMosa;
+
+    my $importer = Catmandu::Importer::MediaMosa-&gt;new(base_url =&gt; &#39;...&#39; , user =&gt; &#39;...&#39; , password =&gt; &#39;...&#39; );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-mendeleycatalog">MendeleyCatalog</h2>
+<h2 id="catmandu-importer-oai">OAI</h2>
+<pre><code>    # From the command line
+    $ catmandu convert OAI --url http://myrepo.org/oai
+
+    $ catmandu convert OAI --url http://myrepo.org/oai --metadataPrefix didl --handler raw
+
+    # In perl
+    use Catmandu::Importer::OAI;
+
+    my $importer = Catmandu::Importer::OAI-&gt;new(
+                    url =&gt; &quot;...&quot;,
+                    metadataPrefix =&gt; &quot;...&quot; ,
+                    from =&gt; &quot;...&quot; ,
+                    until =&gt; &quot;...&quot; ,
+                    set =&gt; &quot;...&quot;,
+                    handler =&gt; &quot;...&quot; );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-pica">PICA</h2>
+<pre><code>    use Catmandu::Importer::PICA;
+
+    my $importer = Catmandu::Importer::PICA-&gt;new(file =&gt; &quot;pica.xml&quot;, type=&gt; &quot;XML&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = shift;
+        # ...
+    });</code></pre>
+<p>To convert between PICA+ syntax variants with the <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>    catmandu convert PICA --type xml to PICA --type plain &lt; picadata.xml</code></pre>
+<h2 id="catmandu-importer-rdf">RDF</h2>
+<p>Command line client <code>catmandu</code>:</p>
+<pre><code>  catmandu convert RDF --url http://d-nb.info/gnd/4151473-7 to YAML
+
+  catmandu convert RDF --file rdfdump.ttl to JSON
+
+  # Query a SPARQL endpoint
+  catmandu convert RDF --url http://dbpedia.org/sparql 
+                       --sparql &quot;SELECT ?film WHERE { ?film dct:subject &lt;http://dbpedia.org/resource/Category:French_films&gt; }&quot;
+
+  catmandu convert RDF --url http://example.org/sparql --sparql query.rq
+
+  # Query a Linked Data Fragment endpoint
+  catmandu convert RDF --url http://fragments.dbpedia.org/2014/en
+                       --sparql &quot;SELECT ?film WHERE { ?film dct:subject &lt;http://dbpedia.org/resource/Category:French_films&gt; }&quot;</code></pre>
+<p>In Perl code:</p>
+<pre><code>    use Catmandu::Importer::RDF;
+    my $url = &quot;http://dx.doi.org/10.2474/trol.7.147&quot;;
+    my $rdf = Catmandu::Importer::RDF-&gt;new( url =&gt; $url )-&gt;first;</code></pre>
+<h2 id="catmandu-importer-ris">RIS</h2>
+<p>Command line interface:</p>
+<pre><code>  catmandu convert RIS &lt; input.txt
+
+  # Use the --human option to translate RIS tags into human readable strings
+  catmandu convert RIS --human 1 &lt; input.txt
+
+  # Provide a comma separated mapping file to translate RIS tags
+  catmandu convert RIS --human mappings/my_tags.txt &lt; input.txt</code></pre>
+<p>In Perl code:</p>
+<pre><code>  use Catmandu::Importer::RIS;
+
+  my $importer = Catmandu::Importer::RIS-&gt;new(file =&gt; &quot;/foo/bar.txt&quot;);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    # ...
+  });</code></pre>
+<h2 id="catmandu-importer-sru">SRU</h2>
+<pre><code>  use Catmandu::Importer::SRU;
+
+  my %attrs = (
+    base =&gt; &#39;http://www.unicat.be/sru&#39;,
+    query =&gt; &#39;(isbn=0855275103 or isbn=3110035170 or isbn=9010017362 or isbn=9014026188)&#39;,
+    recordSchema =&gt; &#39;marcxml&#39;,
+    parser =&gt; &#39;marcxml&#39;
+  );
+
+  my $importer = Catmandu::Importer::SRU-&gt;new(%attrs);
+
+  my $count = $importer-&gt;each(sub {
+        my $schema   = $record-&gt;{recordSchema};
+        my $packing  = $record-&gt;{recordPacking};
+        my $position = $record-&gt;{recordPosition};
+        my $data     = $record-&gt;{recordData};
+    # ...
+  });
+
+  # Using Catmandu::Importer::SRU::Package::marcxml, included in this release
+
+  my $importer = Catmandu::Importer::SRU-&gt;new(
+    base =&gt; &#39;http://www.unicat.be/sru&#39;,
+    query =&gt; &#39;(isbn=0855275103 or isbn=3110035170 or isbn=9010017362 or isbn=9014026188)&#39;,
+    recordSchema =&gt; &#39;marcxml&#39; ,
+    parser =&gt; &#39;marcxml&#39; ,
+  );
+
+  # Using a homemade parser
+  
+  my $importer = Catmandu::Importer::SRU-&gt;new(
+    base =&gt; &#39;http://www.unicat.be/sru&#39;,
+    query =&gt; &#39;(isbn=0855275103 or isbn=3110035170 or isbn=9010017362 or isbn=9014026188)&#39;,
+    recordSchema =&gt; &#39;marcxml&#39; ,
+    parser =&gt; MyParser-&gt;new , # or parser =&gt; &#39;+MyParser&#39;
+  );</code></pre>
+<h2 id="catmandu-importer-solr">Solr</h2>
+<pre><code>    use Catmandu::Importer::Solr;
+
+    my %attrs = (
+        url =&gt; &quot;http://localhost:8983/solr&quot;,
+        query =&gt; &#39;type:book&#39;,
+        bag_field =&gt; &#39;_bag&#39;,
+        id_field =&gt; &#39;_id&#39;
+    );
+
+    my $importer = Catmandu::Importer::Solr-&gt;new(%attrs);
+
+    $importer-&gt;each(sub {
+            my $row_hash = shift;
+            ...
+    });
+
+
+    # or
+
+    $ catmandu convert Solr --url &quot;http://localhost:8983/solr&quot; --query &quot;type:book&quot;</code></pre>
+<h2 id="catmandu-importer-twitter">Twitter</h2>
+<pre><code>    use Catmandu::Importer::Twitter;
+
+    my $importer = Catmandu::Importer::Twitter-&gt;new(
+                        consumer_key =&gt; &#39;&lt;your key&gt;&#39; ,
+                        consumer_secret =&gt; &#39;&lt;your secret&gt;&#39; ,
+                        access_token =&gt; &#39;&lt;your token&gt;&#39; ,
+                        access_token_secret =&gt; &#39;&lt;your token secret&gt;&#39; ,    
+                        query =&gt; &#39;#elag2013&#39; 
+                    );
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-wikidata">Wikidata</h2>
+<pre><code>    catmandu convert Wikidata --ids Q1,P227
+    catmandu convert Wikidata --site dewiki --title Wahnsinn
+
+    echo Q1 | catmandu convert Wikidata
+    echo Wahnsinn | catmandu convert Wikidata --site dewiki
+    echo dewiki:Wahnsinn | catmandu convert Wikidata
+
+    echo Q1 | catmandu convert Wikidata --fix &#39;retain_field(&quot;labels&quot;)&#39;</code></pre>
+<h2 id="catmandu-importer-xls">XLS</h2>
+<pre><code>    # On the command line
+    $ catmandu convert XLS &lt; ./t/test.xls
+    $ catmandu convert XLS --header 0 &lt; ./t/test.xls
+    $ catmandu convert XLS --fields 1,2,3 &lt; ./t/test.xls
+    $ catmandu convert XLS --columns 1 &lt; ./t/test.xls
+
+    # Or in Perl
+    use Catmandu::Importer::XLS;
+
+    my $importer = Catmandu::Importer::XLS-&gt;new(file =&gt; &quot;./t/test.xls&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-xlsx">XLSX</h2>
+<pre><code>    # On the command line
+    $ catmandu convert XLSX &lt; ./t/test.xlsx
+    $ catmandu convert XLSX --header 0 &lt; ./t/test.xlsx
+    $ catmandu convert XLSX --fields 1,2,3 &lt; ./t/test.xlsx
+    $ catmandu convert XLSX --columns 1 &lt; ./t/test.xlsx
+
+    # Or in Perl
+    use Catmandu::Importer::XLSX;
+
+    my $importer = Catmandu::Importer::XLSX-&gt;new(file =&gt; &quot;./t/test.xlsx&quot;);
+
+    my $n = $importer-&gt;each(sub {
+        my $hashref = $_[0];
+        # ...
+    });</code></pre>
+<h2 id="catmandu-importer-xml">XML</h2>
+<h2 id="catmandu-importer-z3950">Z3950</h2>
+<pre><code>  use Catmandu::Importer::Z3950;
+
+  my %attrs = (
+    host =&gt; &#39;z3950.loc.gov&#39;,
+    port =&gt; 7090,
+    databaseName =&gt; &quot;Voyager&quot;,
+    preferredRecordSyntax =&gt; &quot;USMARC&quot;,
+    queryType =&gt; &#39;PQF&#39;, # CQL or PQF
+    query =&gt; &#39;@attr 1=4 dinosaur&#39;
+  );
+
+  my $importer = Catmandu::Importer::Z3950-&gt;new(%attrs);
+
+  my $n = $importer-&gt;each(sub {
+    my $hashref = $_[0];
+    ...
+  });
+
+  print &quot;DONE. ($n). \n&quot;;
+
+  `host`, `database` and `query` are required, `user` and `user` are optional.
+  `port`, `preferredRecordSyntax` and `queryType` will default to 210 &#39;USMARC&#39; and &#39;CQL&#39; respectively.</code></pre>
+<h2 id="catmandu-importer-zotero">Zotero</h2>
+<pre><code>    # From the command line
+    # From the command line
+    $ catmandu convert Zotero --userID &lt;userID&gt; to JSON
+    $ catmandu convert Zotero --groupID &lt;groupID&gt; to JSON
+  
+    # From Perl
+    use Catmandu;
+
+    my $importer = Catmandu-&gt;importer(&#39;Zotero&#39;, userID =&gt; &#39;...&#39;);
+
+    $importer-&gt;each(sub {
+       my $item = shift;
+       print &quot;%s %s\n&quot;, $item-&gt;{_id} , $item-&gt;{title}-&gt;[0];
+   });</code></pre>
+<h1 id="Exporter">Exporter</h1>
+<h2 id="catmandu-exporter-csv">CSV</h2>
+<pre><code>    use Catmandu::Exporter::CSV;
+
+    my $exporter = Catmandu::Exporter::CSV-&gt;new(
+                fix =&gt; &#39;myfix.txt&#39;,
+                quote_char =&gt; &#39;&quot;&#39;,
+                sep_char =&gt; &#39;,&#39;,
+                escape_char =&gt; &#39;&quot;&#39; ,
+                always_quote =&gt; 1,
+                header =&gt; 1);
+
+    $exporter-&gt;fields(&quot;f1,f2,f3&quot;);
+    $exporter-&gt;fields([qw(f1 f2 f3)]);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-json">JSON</h2>
+<p>Command line interface:</p>
+<pre><code>    catmandu convert YAML to JSON --pretty 1 &lt; input.yml</code></pre>
+<p>In Perl code:</p>
+<pre><code>    use Catmandu -all;
+
+    my $exporter = exporter(&#39;JSON&#39;, fix =&gt; &#39;myfix.txt&#39;);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-multi">Multi</h2>
+<pre><code>    # this will write both a CSV and an XLS file
+    my $exporter = Catmandu::Exporter::Multi-&gt;new(exporters =&gt; [
+        Catmandu::Exporter::CSV-&gt;new(file =&gt; &#39;mydata.csv&#39;),
+        Catmandu::Exporter::XLS-&gt;new(file =&gt; &#39;mydata.xls&#39;),
+    ]);
+    $exporter-&gt;add({col1 =&gt; &#39;val1&#39;, col2 =&gt; &#39;val2&#39;});
+    $exporter-&gt;commit;</code></pre>
+<h2 id="catmandu-exporter-null">Null</h2>
+<pre><code>        # From the commandline
+        $ catmandu convert JSON --fix myfixes to Null &lt; /tmp/data.json</code></pre>
+<h2 id="catmandu-exporter-text">Text</h2>
+<pre><code>    use Catmandu::Exporter::Text;
+
+    # Print to STDOUT
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(fix =&gt; &#39;myfix.txt&#39;);
+
+    # Print to file or IO::Handle
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(file =&gt; &#39;/tmp/out.yml&#39;);
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(file =&gt; $fh);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-yaml">YAML</h2>
+<pre><code>    use Catmandu::Exporter::YAML;
+
+    # Print to STDOUT
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(fix =&gt; &#39;myfix.txt&#39;);
+
+    # Print to file or IO::Handle
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(file =&gt; &#39;/tmp/out.yml&#39;);
+    my $exporter = Catmandu::Exporter::YAML-&gt;new(file =&gt; $fh);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-atom">Atom</h2>
+<pre><code>    use Catmandu::Exporter::Atom;
+
+    my $blog_args = {
+     id =&gt; &quot;urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6&quot; ,
+     title =&gt; &quot;My Blog&quot; , 
+     subtitle =&gt; &quot;testing 1.2.3&quot; ,
+     icon =&gt; &quot;http://icons.org/test.jpg&quot; ,
+     generator =&gt; &quot;Catmandu::Exporter::Atom&quot; ,
+     rights =&gt; &quot;Beer license&quot;,
+     link =&gt; [
+                {
+         &#39;type&#39; =&gt; &#39;text/html&#39; ,
+         &#39;rel&#39;  =&gt; &#39;alternate&#39; ,
+         &#39;href&#39; =&gt; &#39;http://www.example.com&#39; ,
+                 } 
+     ],
+     author =&gt; [ 
+               {
+         &#39;name&#39; =&gt; &#39;Daffy&#39; ,
+         &#39;email&#39; =&gt; &#39;duck@toons.be&#39; ,
+               }
+     ] ,
+     contributor =&gt; [
+                {
+          &#39;name&#39;  =&gt; &#39;Bugs&#39; ,
+          &#39;email&#39; =&gt; &#39;bunny@toons.be&#39;
+                }
+     ],
+     ns =&gt; {
+         &#39;dc&#39; =&gt; &#39;http://purl.org/dc/elements/1.1/&#39;,
+     },
+     &#39;dc:source&#39; =&gt; &#39;test&#39;,
+    };
+    
+    my $exporter = Catmandu::Exporter::Atom-&gt;new(%$blog_args);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+    
+    $exporter-&gt;add({
+     &#39;title&#39;    =&gt; &#39;My Little Pony&#39; ,
+     &#39;subtitle&#39; =&gt; &#39;Data testing for you and me&#39; ,
+     &#39;content&#39;  =&gt; &quot;sdsadas&quot; ,
+     &#39;summary&#39;  =&gt; &#39;Brol 123&#39; ,
+     &#39;id&#39;       =&gt; &#39;1291821827128172817&#39; ,
+     &#39;author&#39; =&gt; {
+        &#39;name&#39; =&gt; &#39;John Doe&#39; ,
+        &#39;email&#39; =&gt; &#39;john@farwaway.org&#39; ,
+     } ,
+     &#39;contributor&#39; =&gt; {
+        &#39;name&#39; =&gt; &#39;Rabbit, R&#39; ,
+        &#39;email&#39; =&gt; &#39;r.rabbit@farwaway.org&#39; ,
+        &#39;homepage&#39; =&gt; &#39;http://faraway.org/~rabbit&#39; ,
+     } ,
+     &#39;link&#39; =&gt; [
+               {
+        &#39;type&#39; =&gt; &#39;text/html&#39; ,
+        &#39;rel&#39;  =&gt; &#39;alternate&#39; ,
+        &#39;href&#39; =&gt; &#39;http://www.example.com&#39; ,
+        &#39;title&#39; =&gt; &#39;Test test&#39; ,
+        &#39;length&#39; =&gt; &#39;1231&#39; ,
+        &#39;hreflang&#39; =&gt; &#39;eng&#39; ,
+                } ,
+               {
+        &#39;type&#39; =&gt; &#39;text/html&#39; ,
+        &#39;rel&#39;  =&gt; &#39;alternate&#39; ,
+        &#39;href&#39; =&gt; &#39;http://www.example2.com&#39; ,
+                }
+     ] ,
+     &#39;category&#39; =&gt; [
+                {
+        &#39;scheme&#39; =&gt; &#39;http://localhost:8080/roller/adminblog&#39; ,
+        &#39;term&#39; =&gt; &#39;Music&#39;,
+                }
+     ] ,
+     &#39;rights&#39; =&gt; &#39;Yadadada&#39;,
+     &#39;dc:subject&#39; =&gt; &#39;Toyz&#39;,
+    });
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-bagit">BagIt</h2>
+<pre><code>   use Catmandu::Exporter::BagIt
+
+   my $exporter = Catmandu::Exporter::BagIt-&gt;new(
+                            overwrite     =&gt; 0 ,
+                            skip_manifest =&gt; 0,
+                  );
+
+   $exporter-&gt;add($bagit_record);
+
+   $exporter-&gt;commit;</code></pre>
+<h2 id="catmandu-exporter-bibtex">BibTeX</h2>
+<pre><code>    use Catmandu::Exporter::BibTeX;
+
+    my $exporter = Catmandu::Exporter::BibTeX-&gt;new(fix =&gt; &#39;myfix.txt&#39;);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    $exporter-&gt;add({
+     type    =&gt; &#39;book&#39;,
+     _citekey =&gt; &#39;389-ajk0-1&#39;,
+     title    =&gt; &#39;the Zen of {CSS} design&#39;,
+     author   =&gt; [&#39;Dave Shea&#39;,&#39;Molley E. Holzschlag&#39;],
+     isbn     =&gt; &#39;0-321-30347-4&#39;
+    });
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-table">Table</h2>
+<p>With <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client:</p>
+<pre><code>  echo &#39;{&quot;one&quot;:&quot;my&quot;,&quot;two&quot;:&quot;table&quot;} {&quot;one&quot;:&quot;is&quot;,&quot;two&quot;:&quot;nice&quot;}&#39; | \ 
+  catmandu convert JSON --multiline 1 to Table
+  | one | two   |
+  |-----|-------|
+  | my  | table |
+  | is  | nice  |
+
+  catmandu convert CSV to Table --fields id,name --columns ID,Name &lt; sample.csv
+  | ID | Name |
+  |----|------|
+  | 23 | foo  |
+  | 42 | bar  |
+  | 99 | doz  |</code></pre>
+<p>In Perl scripts:</p>
+<pre><code>  use Catmandu::Exporter::Table;
+  my $exp = Catmandu::Exporter::Table-&gt;new;
+  $exp-&gt;add({ title =&gt; &quot;The Hobbit&quot;, author =&gt; &quot;Tolkien&quot; });
+  $exp-&gt;add({ title =&gt; &quot;Where the Wild Things Are&quot;, author =&gt; &quot;Sendak&quot; });
+  $exp-&gt;add({ title =&gt; &quot;One Thousand and One Nights&quot; });
+  $exp-&gt;commit;
+
+  | author  | title                       |
+  |---------|-----------------------------|
+  | Tolkien | The Hobbit                  |
+  | Sendak  | Where the Wild Things Are   |
+  |         | One Thousand and One Nights |</code></pre>
+<h2 id="catmandu-exporter-mab2">MAB2</h2>
+<pre><code>    use Catmandu::Exporter::MAB2;
+ 
+    my $exporter = Catmandu::Exporter::MAB2-&gt;new(file =&gt; &quot;mab2.dat&quot;, type =&gt; &quot;RAW&quot;);
+    my $data = {
+     record =&gt; [
+        ...
+        [245, &#39;1&#39;, &#39;a&#39;, &#39;Cross-platform Perl /&#39;, &#39;c&#39;, &#39;Eric F. Johnson.&#39;],
+        ...
+        ],
+    };
+ 
+    $exporter-&gt;add($data);
+    $exporter-&gt;commit;</code></pre>
+<h2 id="catmandu-exporter-marc">MARC</h2>
+<pre><code>    # From the command line
+    $ catmandu convert MARC --type USMARC to MARC --type XML &lt; /foo/bar.mrc
+
+    # From Perl
+    use Catmandu;
+
+    my $importer = Catmandu-&gt;importer(&#39;MARC&#39;, file =&gt; &quot;/foo/bar.mrc&quot; , type =&gt; &#39;USMARC&#39;);
+    my $exporter = Catmandu-&gt;exporter(&#39;MARC&#39;, file =&gt; &quot;marc.xml&quot;, type =&gt; &quot;XML&quot; );
+
+    $exporter-&gt;add($importer);
+    $exporter-&gt;commit;</code></pre>
+<h2 id="catmandu-exporter-pica">PICA</h2>
+<h2 id="catmandu-exporter-rdf">RDF</h2>
+<p>In Perl code:</p>
+<pre><code>    use Catmandu -all;
+
+    my $exporter = exporter(&#39;RDF&#39;,
+        file =&gt; &#39;export.rdf&#39;,
+        type =&gt; &#39;XML&#39;,
+        fix  =&gt; &#39;rdf.fix&#39;
+    );
+
+    $exporter-&gt;add( $aref ); # pass RDF data in aREF encoding
+
+    $exporter-&gt;commit;</code></pre>
+<h2 id="catmandu-exporter-ris">RIS</h2>
+<pre><code>    use Catmandu::Exporter::RIS;
+
+    my $exporter = Catmandu::Exporter::RIS-&gt;new(fix =&gt; &#39;myfix.txt&#39;);
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    $exporter-&gt;add({
+     TI   =&gt; &#39;the Zen of CSS design&#39;,
+     AU   =&gt; [&#39;Dave Shea&#39;,&#39;Molley E. Holzschlag&#39;],
+     IS   =&gt; &#39;0-321-30347-4&#39;
+    });
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-stat">Stat</h2>
+<pre><code>    # Calculate statistics on the availabity of the ISBN fields in the dataset
+    cat data.json | catmandu convert -v JSON to Stat --fields isbn
+
+    # Calculate statistics on the uniqueness of ISBN numbers in the dataset
+    cat data.json | catmandu convert -v JSON to Stat --fields isbn --values 1
+
+    # Export the statistics as YAML
+    cat data.json | catmandu convert -v JSON to Stat --fields isbn --values 1 --as YAML</code></pre>
+<h2 id="catmandu-exporter-template">Template</h2>
+<pre><code>    use Catmandu::Exporter::Template;
+
+    my $exporter = Catmandu::Exporter::Template-&gt;new(
+                fix =&gt; &#39;myfix.txt&#39;
+                xml =&gt; 1,
+                template_before =&gt; &#39;&lt;path&gt;/header.xml&#39; ,
+                template =&gt; &#39;&lt;path&gt;/record.xml&#39; ,
+                template_after =&gt; &#39;&lt;path&gt;/footer.xml&#39; ,
+           );
+
+    $exporter-&gt;add_many($arrayref);
+    $exporter-&gt;add_many($iterator);
+    $exporter-&gt;add_many(sub { });
+
+    $exporter-&gt;add($hashref);
+
+    $exporter-&gt;commit; # trigger the template_after
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-xls">XLS</h2>
+<pre><code>    # On the command line
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLS --file test.xls
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLS --file test.xls --header 0
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLS --file test.xls --fields a,c
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLS --file test.xls --fields a,c --columns ALPHA,CHARLIE
+
+    # Or in Perl
+    use Catmandu::Exporter::XLS;
+
+    my $exporter = Catmandu::Exporter::XLS-&gt;new(
+                file =&gt; &#39;test.xls&#39;,
+                fields =&gt; &#39;a,b,c&#39;
+                columns =&gt; &#39;ALPHA,BRAVO,CHARLIE&#39;
+                header =&gt; 1);
+
+    $exporter-&gt;add({a =&gt; 1, b =&gt; 2, c =&gt; 3});
+    $exporter-&gt;add_many($arrayref);
+
+    $exporter-&gt;commit;
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-xlsx">XLSX</h2>
+<pre><code>    # On the command line
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLSX --file test.xlsx
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLSX --file test.xlsx --header 0
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLSX --file test.xlsx --fields a,c
+    $ printf &quot;a,b,c\n1,2,3&quot; | catmandu convert CSV to XLSX --file test.xlsx --fields a,c --columns ALPHA,CHARLIE
+
+    # Or in Perl
+    use Catmandu::Exporter::XLSX;
+
+    my $exporter = Catmandu::Exporter::XLSX-&gt;new(
+                file =&gt; &#39;test.xlsx&#39;,
+                fields =&gt; &#39;a,b,c&#39;
+                columns =&gt; &#39;ALPHA,BRAVO,CHARLIE&#39;
+                header =&gt; 1);
+
+    $exporter-&gt;add({a =&gt; 1, b =&gt; 2, c =&gt; 3});
+    $exporter-&gt;add_many($arrayref);
+
+    $exporter-&gt;commit;
+
+    printf &quot;exported %d objects\n&quot; , $exporter-&gt;count;</code></pre>
+<h2 id="catmandu-exporter-xml">XML</h2>
+<h1 id="Store">Store</h1>
+<h2 id="catmandu-store-hash">Hash</h2>
+<pre><code>   use Catmandu::Store::Hash;
+
+   my $store = Catmandu::Store::Hash-&gt;new();
+
+   my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+   printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+   # Force an id in the store
+   my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+   my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+   $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+   $store-&gt;bag-&gt;delete_all;
+
+   # All bags are iterators
+   $store-&gt;bag-&gt;each(sub { ... });
+   $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });</code></pre>
+<h2 id="catmandu-store-multi">Multi</h2>
+<h2 id="catmandu-store-alephx">AlephX</h2>
+<pre><code> use Catmandu::Store::AlephX;
+
+ my $store = Catmandu::Store::AlephX-&gt;new(url =&gt; &#39;http://aleph.ugent.be/X&#39; , username =&gt; &#39;XXX&#39; , password =&gt; &#39;XXX&#39;);
+
+ $store-&gt;bag(&#39;usm01&#39;)-&gt;each(sub {
+ });</code></pre>
+<h2 id="catmandu-store-alephx">AlephX</h2>
+<pre><code> use Catmandu::Store::AlephX;
+
+ my $store = Catmandu::Store::AlephX-&gt;new(url =&gt; &#39;http://aleph.ugent.be/X&#39; , username =&gt; &#39;XXX&#39; , password =&gt; &#39;XXX&#39;);
+
+ $store-&gt;bag(&#39;usm01&#39;)-&gt;each(sub {
+ });</code></pre>
+<h2 id="catmandu-store-dbi">DBI</h2>
+<pre><code>    use Catmandu::Store::DBI;
+
+    my $store = Catmandu::Store::DBI-&gt;new(
+        data_source =&gt; &#39;DBI:mysql:database=test&#39;, # prefix &quot;DBI:&quot; optional
+        username =&gt; &#39;&#39;, # optional
+        password =&gt; &#39;&#39;, # optional
+    );
+
+    my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+    printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+    # Force an id in the store
+    my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+    my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete_all;
+
+    # All bags are iterators
+    $store-&gt;bag-&gt;each(sub { ... });
+    $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });</code></pre>
+<p>The <a href="https://metacpan.org/pod/catmandu">catmandu</a> command line client can be used like this:</p>
+<pre><code>    catmandu import JSON to DBI --data_source SQLite:mydb.sqlite &lt; data.json</code></pre>
+<h2 id="catmandu-store-fedoracommons">FedoraCommons</h2>
+<pre><code> use Catmandu::Store::FedoraCommons;
+
+ my $store = Catmandu::Store::FedoraCommons-&gt;new(
+         baseurl  =&gt; &#39;http://localhost:8080/fedora&#39;,
+         username =&gt; &#39;fedoraAdmin&#39;,
+         password =&gt; &#39;fedoraAdmin&#39;,
+         model    =&gt; &#39;Catmandu::Store::FedoraCommons::DC&#39; # default
+ );
+
+ # We use the DC model, lets store some DC
+ my $obj1 = $store-&gt;bag-&gt;add({ 
+                    title =&gt; [&#39;The Master and Margarita&#39;] , 
+                    creator =&gt; [&#39;Bulgakov, Mikhail&#39;] }
+            );
+
+ printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+ # Force an id in the store
+ my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;demo:120812&#39; , title =&gt; [&#39;The Master and Margarita&#39;]  });
+
+ my $obj3 = $store-&gt;bag-&gt;get(&#39;demo:120812&#39;);
+
+ $store-&gt;bag-&gt;delete(&#39;demo:120812&#39;);
+
+ $store-&gt;bag-&gt;delete_all;
+
+ # All bags are iterators
+ $store-&gt;bag-&gt;each(sub {  
+     my $obj = $_[0];
+     my $pid = $obj-&gt;{_id};
+     my $ds  = $store-&gt;fedora-&gt;listDatastreams(pid =&gt; $pid)-&gt;parse_content;
+ });
+ 
+ $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });
+ </code></pre>
+<h2 id="catmandu-store-solr">Solr</h2>
+<pre><code>    use Catmandu::Store::Solr;
+
+    my $store = Catmandu::Store::Solr-&gt;new(url =&gt; &#39;http://localhost:8983/solr&#39; );
+
+    my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+    printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+    # Force an id in the store
+    my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+    # send all changes to solr (committed automatically)
+    $store-&gt;bag-&gt;commit;
+
+    #transaction: rollback issued after &#39;die&#39;
+    $store-&gt;transaction(sub{
+        $bag-&gt;delete_all();
+        die(&quot;oops, didn&#39;t want to do that!&quot;);
+    });
+
+    my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete_all;
+
+    # All bags are iterators
+    $store-&gt;bag-&gt;each(sub { ... });
+    $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });
+
+    # Some stores can be searched
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; &#39;name:Patrick&#39;);</code></pre>
+<h2 id="catmandu-store-chi">CHI</h2>
+<pre><code>   # From the command line
+   $ catmandu export CHI --driver File --root_dir /data to YAML
+   $ catmandu import JSON to CHI --driver File --root_dir /data &lt; data.json
+
+   # From perl
+   use Catmandu;
+
+   my $store = Catmandu-&gt;store(&#39;CHI&#39;, driver =&gt; &#39;File&#39; , root_dir =&gt; &#39;/data&#39;);
+
+   $store-&gt;bag-&gt;each(sub {
+        my $item = shift;
+        ...
+   });
+
+   $store-&gt;bag-&gt;add({ test =&gt; 123 });</code></pre>
+<h2 id="catmandu-store-couchdb">CouchDB</h2>
+<pre><code>    use Catmandu::Store::CouchDB;
+
+    my $store = Catmandu::Store::CouchDB-&gt;new;
+
+    my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+    printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+    # Force an id in the store
+    my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+    my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete_all;
+
+    # All bags are iterators
+    $store-&gt;bag-&gt;each(sub { ... });
+    $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });</code></pre>
+<h2 id="catmandu-store-elasticsearch">ElasticSearch</h2>
+<pre><code>    use Catmandu::Store::ElasticSearch;
+
+    my $store = Catmandu::Store::ElasticSearch-&gt;new(index_name =&gt; &#39;catmandu&#39;);
+
+    my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+    printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+    # Force an id in the store
+    my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+    # Commit all changes
+    $store-&gt;bag-&gt;commit;
+
+    my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete_all;
+
+    # All bags are iterators
+    $store-&gt;bag-&gt;each(sub { ... });
+    $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });
+
+    # Some stores can be searched
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; &#39;name:Patrick&#39;);
+
+    # Catmandu::Store::ElasticSearch supports CQL...
+    my $hits = $store-&gt;bag-&gt;search(cql_query =&gt; &#39;name any &quot;Patrick&quot;&#39;);</code></pre>
+<h2 id="catmandu-store-lucy">Lucy</h2>
+<pre><code>    use Catmandu::Store::Lucy;
+
+    my $store = Catmandu::Store::Lucy-&gt;new(path =&gt; &#39;/path/to/index/&#39;);
+
+    my $book = $store-&gt;bag-&gt;add({ title =&gt; &#39;Advanced Perl&#39; });
+
+    printf &quot;book stored as %s\n&quot;, $book-&gt;{_id};
+
+    $store-&gt;bag-&gt;commit;
+
+    $bag-&gt;get($id);
+
+    # all bags are iterators
+    $bag-&gt;each(sub { ... });
+    $bag-&gt;take(10)-&gt;each(sub { ... });
+
+    my $hits = $bag-&gt;search(query =&gt; &#39;perl&#39;);
+
+    # hits is an iterator
+    $hits-&gt;each(sub {
+        say $_[0]-&gt;{title};
+    });
+
+    $bag-&gt;delete($id);
+    $bag-&gt;delete_by_query(query =&gt; &#39;perl&#39;);
+    $bag-&gt;delete_all;
+    $bag-&gt;commit;</code></pre>
+<h2 id="catmandu-store-mongodb">MongoDB</h2>
+<pre><code>    # On the command line
+    $ catmandu import -v JSON --multiline 1 to MongoDB --database_name bibliography --bag books &lt; books.json
+    $ catmandu export MongoDB --database_name bibliography --bag books to YAML
+    $ catmandu count MongoDB --database_name bibliography --bag books --query &#39;{&quot;PublicationYear&quot;: &quot;1937&quot;}&#39;
+
+    # In perl
+    use Catmandu::Store::MongoDB;
+
+    my $store = Catmandu::Store::MongoDB-&gt;new(database_name =&gt; &#39;test&#39;);
+
+    my $obj1 = $store-&gt;bag-&gt;add({ name =&gt; &#39;Patrick&#39; });
+
+    printf &quot;obj1 stored as %s\n&quot; , $obj1-&gt;{_id};
+
+    # Force an id in the store
+    my $obj2 = $store-&gt;bag-&gt;add({ _id =&gt; &#39;test123&#39; , name =&gt; &#39;Nicolas&#39; });
+
+    my $obj3 = $store-&gt;bag-&gt;get(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete(&#39;test123&#39;);
+
+    $store-&gt;bag-&gt;delete_all;
+
+    # All bags are iterators
+    $store-&gt;bag-&gt;each(sub { ... });
+    $store-&gt;bag-&gt;take(10)-&gt;each(sub { ... });
+
+    # Search
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; &#39;{&quot;name&quot;:&quot;Patrick&quot;}&#39;);
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; &#39;{&quot;name&quot;:&quot;Patrick&quot;}&#39; , sort =&gt; { age =&gt; -1} );
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; {name =&gt; &quot;Patrick&quot;} , start =&gt; 0 , limit =&gt; 100);
+    
+    my $next_page = $hits-&gt;next_page;
+    my $hits = $store-&gt;bag-&gt;search(query =&gt; &#39;{&quot;name&quot;:&quot;Patrick&quot;}&#39; , page =&gt; $next_page);
+
+    my $iterator = $store-&gt;bag-&gt;searcher(query =&gt; {name =&gt; &quot;Patrick&quot;});</code></pre>
+</body>
+</html>
