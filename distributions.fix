@@ -1,0 +1,34 @@
+# rename some fields
+move_field(distribution,name)
+
+# make sure field 'provides' is an array
+if exists(provides)
+  unless exists(provides.0)
+    move_field(provides,provides.0)
+  end
+end 
+
+# clean field 'date'
+replace_all(date,'\.000Z','')
+
+# guess Debian package name
+copy_field(name, debian.package)
+downcase(debian.package)
+prepend(debian.package, 'lib');
+append(debian.package,'-perl');
+
+# get information about Debian package name
+get_json(
+    "https://sources.debian.net/api/src/{package}/",
+    vars: debian, path: debian
+)
+if exists(debian.error)
+  remove_field(debian)
+else
+  # irrelevant fields
+  remove_field(debian.type)
+  remove_field(debian.path)
+  remove_field(debian.suite)
+  
+  # TODO: get more distributions e.g. Ubuntu via lauchpad API
+end

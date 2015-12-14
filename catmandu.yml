@@ -1,0 +1,17 @@
+importer:
+    default:
+        package: JSON
+        options:
+            multiline: 1
+    distributions:
+        package: CPAN
+        options:
+            prefix: Catmandu
+            fields: provides,tests,distribution,date,abstract,download_url,version
+            fix: distributions.fix
+exporter:
+    default:
+        package: JSON
+        options:
+            pretty: 1
+            canonical: 1
